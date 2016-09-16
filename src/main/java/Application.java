@@ -1,22 +1,38 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Application {
 
-    PolygonOperations polygon;
+    private PolygonOperations polygon;
 
     public void start(){
-        getDataAndInitObject();
+        try{
+            getDataAndInitObject();
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+            System.exit(0);
+        }
+
         printResults();
     }
 
     private void getDataAndInitObject(){
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Enter number of sides :");
-        int numberOfSides = in.nextInt();
+        int numberOfSides = 0;
+        double lengthOfEachSide = 0.0;
 
-        System.out.println("Enter length of each side :");
-        double lengthOfEachSide = in.nextDouble();
+        try{
+            System.out.println("Enter number of sides :");
+            numberOfSides = in.nextInt();
+
+            System.out.println("Enter length of each side :");
+            lengthOfEachSide = in.nextDouble();
+
+        }catch (InputMismatchException e){
+            System.out.println("Aborting : Unexpected input types.");
+            System.exit(0);
+        }
 
         if (validateNumberOfSides(numberOfSides) && validateLengthOfEachSide(lengthOfEachSide))
             polygon = new Polygon(numberOfSides, lengthOfEachSide);
