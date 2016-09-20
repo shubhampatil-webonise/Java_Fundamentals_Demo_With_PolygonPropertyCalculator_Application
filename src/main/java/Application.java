@@ -1,64 +1,71 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Application {
 
     private PolygonOperations polygon;
+    private static final int MINIMUM_SIDE_LIMIT = 3;
+    private static final int MAXIMUM_SIDE_LIMIT = 10;
+    private static final Logger logger = Logger.getLogger(Application.class.getName());
+    private final Scanner scanner;
 
-    public void start(){
-        try{
+    Application() {
+        scanner = new Scanner(System.in);
+    }
+
+    public void start() {
+        try {
             getDataAndInitObject();
-        }catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
-            System.exit(0);
+        } catch (Exception exception) {
+            logger.log(Level.ALL, exception.getMessage());
+            System.exit(1);
         }
 
         printResults();
     }
 
-    private void getDataAndInitObject(){
-        Scanner in = new Scanner(System.in);
-
+    private void getDataAndInitObject() {
         int numberOfSides = 0;
         double lengthOfEachSide = 0.0;
 
-        try{
-            System.out.println("Enter number of sides :");
-            numberOfSides = in.nextInt();
+        try {
+            logger.log(Level.ALL, "Enter number of sides :");
+            numberOfSides = scanner.nextInt();
 
-            System.out.println("Enter length of each side :");
-            lengthOfEachSide = in.nextDouble();
+            logger.log(Level.ALL, "Enter length of each side :");
+            lengthOfEachSide = scanner.nextDouble();
 
-        }catch (InputMismatchException e){
-            System.out.println("Aborting : Unexpected input types.");
-            System.exit(0);
+        } catch (InputMismatchException e) {
+            logger.log(Level.ALL, "Aborting : Unexpected input types.");
+            System.exit(1);
         }
 
-        if (validateNumberOfSides(numberOfSides) && validateLengthOfEachSide(lengthOfEachSide))
+        if (isValidateNumberOfSides(numberOfSides) && isValidateLength(lengthOfEachSide))
             polygon = new Polygon(numberOfSides, lengthOfEachSide);
         else
             throw new IllegalArgumentException("Invalid Input");
     }
 
-    private boolean validateNumberOfSides(int numberOfSides){
+    private boolean isValidateNumberOfSides(int numberOfSides) {
 
-        if(numberOfSides >= 3 && numberOfSides <=10)
+        if (numberOfSides >= MINIMUM_SIDE_LIMIT && numberOfSides <= MAXIMUM_SIDE_LIMIT)
             return true;
         else
             return false;
     }
 
-    private boolean validateLengthOfEachSide(double lengthOfEachSide){
+    private boolean isValidateLength(double lengthOfEachSide) {
 
-        if(lengthOfEachSide > 0)
+        if (lengthOfEachSide > 0)
             return true;
         else
             return false;
     }
 
-    private void printResults(){
-
-        System.out.println("Sum of Interior Angles of Polygon : " + polygon.calculateSumOfInteriorAngles() + "\n");
-        System.out.println("Parameter of Polygon : " + polygon.calculateParameter() + "\n");
+    private void printResults() {
+        logger.log(Level.ALL, "Sum of Interior Angles of Polygon : " + polygon.calculateSumOfInteriorAngles() + "\n");
+        logger.log(Level.ALL, "Parameter of Polygon : " + polygon.calculateParameter() + "\n");
     }
 }
