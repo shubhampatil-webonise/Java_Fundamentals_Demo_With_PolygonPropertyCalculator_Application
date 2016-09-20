@@ -37,7 +37,7 @@ public class Application {
             logger.log(Level.ALL, "Enter length of each side :");
             lengthOfEachSide = scanner.nextDouble();
 
-        } catch (InputMismatchException e) {
+        } catch (InputMismatchException inputMismatchError) {
             logger.log(Level.ALL, "Aborting : Unexpected input types.");
             System.exit(1);
         }
