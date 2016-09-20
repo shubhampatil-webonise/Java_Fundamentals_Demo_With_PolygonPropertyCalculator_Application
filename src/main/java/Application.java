@@ -19,7 +19,7 @@ public class Application {
         try {
             getDataAndInitObject();
         } catch (Exception exception) {
-            logger.log(Level.ALL, exception.getMessage());
+            logger.log(Level.SEVERE, exception.getMessage());
             System.exit(1);
         }
 
@@ -31,14 +31,14 @@ public class Application {
         double lengthOfEachSide = 0.0;
 
         try {
-            logger.log(Level.ALL, "Enter number of sides :");
+            logger.log(Level.INFO, "Enter number of sides :");
             numberOfSides = scanner.nextInt();
 
-            logger.log(Level.ALL, "Enter length of each side :");
+            logger.log(Level.INFO, "Enter length of each side :");
             lengthOfEachSide = scanner.nextDouble();
 
         } catch (InputMismatchException inputMismatchError) {
-            logger.log(Level.ALL, "Aborting : Unexpected input types.");
+            logger.log(Level.SEVERE, "Aborting : Unexpected input types.");
             System.exit(1);
         }
 
@@ -65,7 +65,7 @@ public class Application {
     }
 
     private void printResults() {
-        logger.log(Level.ALL, "Sum of Interior Angles of Polygon : " + polygon.calculateSumOfInteriorAngles() + "\n");
-        logger.log(Level.ALL, "Parameter of Polygon : " + polygon.calculateParameter() + "\n");
+        logger.log(Level.INFO, "Sum of Interior Angles of Polygon : " + polygon.calculateSumOfInteriorAngles() + "\n");
+        logger.log(Level.INFO, "Parameter of Polygon : " + polygon.calculateParameter() + "\n");
     }
 }
